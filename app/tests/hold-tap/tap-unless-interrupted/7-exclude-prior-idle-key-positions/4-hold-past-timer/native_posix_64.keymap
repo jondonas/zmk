@@ -1,0 +1,16 @@
+#include <dt-bindings/zmk/keys.h>
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/kscan_mock.h>
+#include "../behavior_keymap.dtsi"
+
+&kscan {
+    events = <
+        /* press non-exclude key (pos 3), release, then quickly press ht_a */
+        /* hold past tapping-term-ms without pressing any other key */
+        /* expect: deferred quick-tap overridden by timer, ht_a resolves as tap (tap-unless-interrupted) */
+        ZMK_MOCK_PRESS(1,1,10)
+        ZMK_MOCK_RELEASE(1,1,10)
+        ZMK_MOCK_PRESS(0,0,400)
+        ZMK_MOCK_RELEASE(0,0,10)
+    >;
+};

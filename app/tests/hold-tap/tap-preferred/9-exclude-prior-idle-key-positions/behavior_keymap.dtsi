@@ -10,7 +10,7 @@
             flavor = "tap-preferred";
             tapping-term-ms = <300>;
             require-prior-idle-ms = <100>;
-            exclude-prior-idle-key-positions = <2>;
+            require-prior-idle-exclude-keycodes = <D>;
             bindings = <&kp>, <&kp>;
         };
         ht_b: behavior_ht_b {
@@ -19,7 +19,7 @@
             flavor = "tap-preferred";
             tapping-term-ms = <300>;
             require-prior-idle-ms = <100>;
-            exclude-prior-idle-key-positions = <3>;
+            require-prior-idle-exclude-keycodes = <E>;
             bindings = <&kp>, <&kp>;
         };
     };

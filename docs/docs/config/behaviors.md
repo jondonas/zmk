@@ -80,7 +80,7 @@ Applies to: `compatible = "zmk,behavior-hold-tap"`
 | `tapping-term-ms`                 | int      | How long in milliseconds the key must be held to trigger a hold                                               |                    |
 | `quick-tap-ms`                    | int      | Tap twice within this period (in milliseconds) to trigger a tap, even when held                               | -1 (disabled)      |
 | `require-prior-idle-ms`           | int      | Triggers a tap immediately if any non-modifier key was pressed within `require-prior-idle-ms` of the hold-tap | -1 (disabled)      |
-| `require-prior-idle-exclude-keycodes` | array    | Keycodes excluded from the `require-prior-idle-ms` idle timer: cancel the timer when pressed before the hold-tap, and bypass quick-tap when pressed after. Only `&kp` bindings are matchable. |                    |
+| `require-prior-idle-exclude-bindings` | phandle-array | Bindings excluded from the `require-prior-idle-ms` idle timer: cancel the timer when pressed before the hold-tap, and bypass quick-tap when pressed after. Matching is exact (behavior + params). |                    |
 | `retro-tap`                       | bool     | Triggers the tap behavior on release if no other key was pressed during a hold                                | false              |
 | `hold-while-undecided`            | bool     | Triggers the hold behavior immediately on press and releases before a tap                                     | false              |
 | `hold-while-undecided-linger`     | bool     | Continues to hold the hold behavior until after the tap is released                                           | false              |

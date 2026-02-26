@@ -362,16 +362,16 @@ However, if the hold behavior isn't used during fast typing, then it can be an e
 
   </details>
 
-#### `require-prior-idle-exclude-keycodes`
+#### `require-prior-idle-exclude-bindings`
 
-By default, `require-prior-idle-ms` considers _all_ non-modifier key presses when determining idle time, and applies its quick-tap decision regardless of which key is pressed next. `require-prior-idle-exclude-keycodes` allows you to specify keycodes that are excluded from the prior-idle system entirely:
+By default, `require-prior-idle-ms` considers _all_ non-modifier key presses when determining idle time, and applies its quick-tap decision regardless of which key is pressed next. `require-prior-idle-exclude-bindings` allows you to specify bindings that are excluded from the prior-idle system entirely:
 
-- **Before the hold-tap**: Pressing a key with an excluded keycode cancels the idle timer (equivalent to the timer having already expired), so the next hold-tap activation will go through the normal hold/tap decision process regardless of how recently other keys were pressed.
-- **After the hold-tap**: If a key with an excluded keycode is pressed as the next key in combination with the hold-tap, the quick-tap decision is bypassed and normal hold/tap flavor logic proceeds — as if `require-prior-idle-ms` was never set for that interaction.
+- **Before the hold-tap**: Pressing a key whose binding matches an entry in this list cancels the idle timer (equivalent to the timer having already expired), so the next hold-tap activation will go through the normal hold/tap decision process regardless of how recently other keys were pressed.
+- **After the hold-tap**: If a key whose binding matches an entry in this list is pressed as the next key in combination with the hold-tap, the quick-tap decision is bypassed and normal hold/tap flavor logic proceeds — as if `require-prior-idle-ms` was never set for that interaction.
 
-This is useful for home-row mods where opposite-hand keys should never be affected by the idle timer. For example, if your hold-tap is on the left hand, you can exclude all right-hand keycodes so that right-hand keys always allow the hold behavior to activate, even during fast typing.
+This is useful for home-row mods where opposite-hand keys should never be affected by the idle timer. For example, if your hold-tap is on the left hand, you can exclude all right-hand key bindings so that right-hand keys always allow the hold behavior to activate, even during fast typing.
 
-Note that each hold-tap behavior instance has its own exclude list, so different hold-taps can exclude different keycodes. Only simple `&kp` bindings are matchable; complex behaviors (hold-tap, mod-morph, etc.) at a position are treated as non-excluded.
+Note that each hold-tap behavior instance has its own exclude list, so different hold-taps can exclude different bindings. Matching is exact: the binding at the key position (after resolving transparent layers) must match an entry in the list exactly (behavior + all parameters).
 
 ```dts
 rpi: require_prior_idle {
@@ -380,7 +380,7 @@ rpi: require_prior_idle {
     flavor = "tap-preferred";
     tapping-term-ms = <200>;
     require-prior-idle-ms = <125>;
-    require-prior-idle-exclude-keycodes = <D E F>; // e.g. opposite-hand keys
+    require-prior-idle-exclude-bindings = <&kp D>, <&kp E>, <&kp F>; // e.g. opposite-hand keys
     bindings = <&kp>, <&kp>;
 };
 ```

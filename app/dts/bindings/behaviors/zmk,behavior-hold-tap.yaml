@@ -28,9 +28,10 @@ properties:
   require-prior-idle-ms:
     type: int
     default: -1
-  require-prior-idle-exclude-keycodes:
-    type: array
+  require-prior-idle-exclude-bindings:
+    type: phandle-array
     required: false
+    specifier-space: binding
     default: []
   flavor:
     type: string

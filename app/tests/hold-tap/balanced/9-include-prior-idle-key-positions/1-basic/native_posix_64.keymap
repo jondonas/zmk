@@ -1,0 +1,21 @@
+#include <dt-bindings/zmk/keys.h>
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/kscan_mock.h>
+#include "../behavior_keymap.dtsi"
+
+&kscan {
+    events = <
+        /* Regression test: the prior key that starts the require-prior-idle timer
+           may be ANY key, not only keys in include-prior-idle-key-positions.
+           Press pos 2 (NOT in ht_a's include list) rapidly, then press ht_a
+           (quick-tap is deferred), then press pos 3 (IN ht_a's include list) as
+           the combo key. Because a key was pressed within require-prior-idle-ms
+           and the combo key is in the include list, ht_a must resolve as a tap. */
+        ZMK_MOCK_PRESS(1,0,10)
+        ZMK_MOCK_RELEASE(1,0,10)
+        ZMK_MOCK_PRESS(0,0,10)
+        ZMK_MOCK_PRESS(1,1,400)
+        ZMK_MOCK_RELEASE(1,1,10)
+        ZMK_MOCK_RELEASE(0,0,10)
+    >;
+};

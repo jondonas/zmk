@@ -1,0 +1,29 @@
+#include <dt-bindings/zmk/keys.h>
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/kscan_mock.h>
+#include "../behavior_keymap.dtsi"
+
+&kscan {
+    events = <
+        /* Independent configs: the same combo key (pos 2) is resolved differently
+           by ht_a and ht_b because their include lists differ. */
+        /* Part A: arm with a prior key (pos 3), press ht_a, then combo pos 2.
+           pos 2 is NOT in ht_a's include list <3>, so quick-tap is bypassed and
+           the normal balanced decision applies: hold-interrupt on other-key-up. */
+        ZMK_MOCK_PRESS(1,1,10)
+        ZMK_MOCK_RELEASE(1,1,10)
+        ZMK_MOCK_PRESS(0,0,10)
+        ZMK_MOCK_PRESS(1,0,10)
+        ZMK_MOCK_RELEASE(1,0,10)
+        ZMK_MOCK_RELEASE(0,0,10)
+        /* Part B: arm with a prior key (pos 3), press ht_b, then combo pos 2.
+           pos 2 IS in ht_b's include list <2>, so the deferred quick-tap fires
+           and ht_b resolves as a tap. */
+        ZMK_MOCK_PRESS(1,1,10)
+        ZMK_MOCK_RELEASE(1,1,10)
+        ZMK_MOCK_PRESS(0,1,10)
+        ZMK_MOCK_PRESS(1,0,400)
+        ZMK_MOCK_RELEASE(1,0,10)
+        ZMK_MOCK_RELEASE(0,1,10)
+    >;
+};

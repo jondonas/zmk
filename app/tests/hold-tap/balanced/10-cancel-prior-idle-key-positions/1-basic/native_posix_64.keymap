@@ -1,0 +1,24 @@
+#include <dt-bindings/zmk/keys.h>
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/kscan_mock.h>
+#include "../behavior_keymap.dtsi"
+
+&kscan {
+    events = <
+        /* Part A: press a cancel key (pos 2, in ht_a's cancel list) then quickly
+           press ht_a and hold past tapping-term-ms. The cancel key actively wipes
+           the prior-idle window, so no quick-tap occurs and ht_a resolves as a
+           hold via the timer (NOT quick-tap), even though a key was just pressed. */
+        ZMK_MOCK_PRESS(1,0,10)
+        ZMK_MOCK_RELEASE(1,0,10)
+        ZMK_MOCK_PRESS(0,0,400)
+        ZMK_MOCK_RELEASE(0,0,10)
+        /* Part B: control — press a non-cancel key (pos 3) then quickly press ht_a.
+           The idle window still applies for non-cancel keys, so ht_a resolves as a
+           quick-tap. */
+        ZMK_MOCK_PRESS(1,1,10)
+        ZMK_MOCK_RELEASE(1,1,10)
+        ZMK_MOCK_PRESS(0,0,50)
+        ZMK_MOCK_RELEASE(0,0,10)
+    >;
+};

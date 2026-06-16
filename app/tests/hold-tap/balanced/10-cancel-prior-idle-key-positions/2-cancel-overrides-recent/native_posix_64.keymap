@@ -1,0 +1,20 @@
+#include <dt-bindings/zmk/keys.h>
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/kscan_mock.h>
+#include "../behavior_keymap.dtsi"
+
+&kscan {
+    events = <
+        /* Override case: a non-cancel key (pos 3) is pressed, then a cancel key
+           (pos 2) is pressed between it and ht_a, all within require-prior-idle-ms.
+           The cancel key actively wipes the idle window armed by the non-cancel key,
+           so ht_a is NOT forced to a quick-tap and resolves as a hold via the timer.
+           Without the cancel key, the recent pos-3 press would have produced a tap. */
+        ZMK_MOCK_PRESS(1,1,10)
+        ZMK_MOCK_RELEASE(1,1,10)
+        ZMK_MOCK_PRESS(1,0,10)
+        ZMK_MOCK_RELEASE(1,0,10)
+        ZMK_MOCK_PRESS(0,0,400)
+        ZMK_MOCK_RELEASE(0,0,10)
+    >;
+};

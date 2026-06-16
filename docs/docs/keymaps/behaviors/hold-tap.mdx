@@ -362,6 +362,24 @@ However, if the hold behavior isn't used during fast typing, then it can be an e
 
   </details>
 
+### `include-prior-idle-key-positions`
+
+This refines [`require-prior-idle-ms`](#require-prior-idle-ms) so the immediate-tap only happens for certain follow-up keys. When set, the prior-idle quick-tap is deferred until the next key is pressed: if that key's position is in the list, the hold-tap resolves as a tap (the usual prior-idle behavior); if it is not in the list, the quick-tap is skipped and the normal hold/tap decision applies, as if `require-prior-idle-ms` were unset for that press. The prior-idle window itself is still started by any non-modifier key. This is useful for home-row mods where only same-hand follow-up keys should be forced to a tap during fast typing.
+
+```dts
+require-prior-idle-ms = <150>;
+include-prior-idle-key-positions = <0 1 2>; // e.g. same-hand keys
+```
+
+### `cancel-prior-idle-key-positions`
+
+This also refines [`require-prior-idle-ms`](#require-prior-idle-ms), but acts on the _preceding_ key. Pressing any key position in this list cancels the prior-idle window, so a hold-tap pressed immediately afterwards is free to resolve as a hold instead of being forced to a tap — even if the preceding key was typed within `require-prior-idle-ms`. This is useful for keys like space or punctuation that usually precede an intentional modifier (e.g. shift), where a hold is almost always wanted next.
+
+```dts
+require-prior-idle-ms = <150>;
+cancel-prior-idle-key-positions = <40 41>; // e.g. space, period
+```
+
 ### Positional hold-tap and `hold-trigger-key-positions`
 
 Including `hold-trigger-key-positions` in your hold-tap definition turns on the positional hold-tap feature. With positional hold-tap enabled, if you press any key **not** listed in `hold-trigger-key-positions` before `tapping-term-ms` expires, it will produce a tap.

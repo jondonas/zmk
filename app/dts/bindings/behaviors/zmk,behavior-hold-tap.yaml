@@ -28,6 +28,14 @@ properties:
   require-prior-idle-ms:
     type: int
     default: -1
+  include-prior-idle-key-positions:
+    type: array
+    required: false
+    default: []
+  cancel-prior-idle-key-positions:
+    type: array
+    required: false
+    default: []
   flavor:
     type: string
     required: false
